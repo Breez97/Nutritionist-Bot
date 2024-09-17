@@ -1,0 +1,4 @@
+telegram:
+  message:
+    startMessage: "👋 Hello, my friend! And welcome!\n\n🧑‍⚕️ I’m your personal nutritionist bot, and I’m here to guide you every step of the way in crafting a personalized daily menu tailored just for you. Whether you're looking to lose weight, build muscle, maintain a balanced diet, or simply explore new healthy recipes, I’ll make sure your plan aligns with your unique preferences and nutritional needs."
+    photoUrl: "https://www.euroguidance-france.org/wp-content/uploads/2020/03/diet-nutrition.jpg"
