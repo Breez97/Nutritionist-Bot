@@ -1,4 +1,4 @@
-package com.breez.dispatcher_service.configuration;
+package com.breez.dispatcher_service.config;
 
 import com.breez.dispatcher_service.controller.BotNutritionist;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +10,7 @@ import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
 
 @Configuration
-public class BotConfiguration {
+public class BotConfig {
 
 	@Autowired
 	private BotNutritionist telegramBot;
