@@ -2,10 +2,4 @@ telegram:
   message:
     startMessage: "👋 Hello, my friend! And welcome!\n\n🧑‍⚕️ I’m your personal nutritionist bot, and I’m here to guide you every step of the way in crafting a personalized daily menu tailored just for you. Whether you're looking to lose weight, build muscle, maintain a balanced diet, or simply explore new healthy recipes, I’ll make sure your plan aligns with your unique preferences and nutritional needs."
     photoUrl: "https://www.euroguidance-france.org/wp-content/uploads/2020/03/diet-nutrition.jpg"
-    coefficientMessage: "<b><i>--- Now I need your activity coefficient ---</i></b>\n\n" +
-                          "<b>Options:</b>" +
-                          "\n    <b>1. Low (~1,2)</b> - Sedentary lifestyle, lack of sports, less than 10 thousand steps per day." +
-                          "\n    <b>2. Small (~1,38)</b> - Work related to walking/standing, not very intense workouts 1-3 times a week (exercise, yoga, pilates, etc.)." +
-                          "\n    <b>3. Average (~1,55)</b> - Intensive sports consistently 1-3 times a week, active lifestyle." +
-                          "\n    <b>4. High (~1,73)</b> - Sports daily." +
-                          "\n    <b>5. Very high (~2,2)</b> - hard physical work, sports 2 times a day."
+    coefficientMessage: "<b><i>--- Now I need your activity coefficient ---</i></b>\n\n<b>Options:</b>\n    <b>1. Low (~1,2)</b> - Sedentary lifestyle, lack of sports, less than 10 thousand steps per day.\n    <b>2. Small (~1,38)</b> - Work related to walking/standing, not very intense workouts 1-3 times a week (exercise, yoga, pilates, etc.).\n    <b>3. Average (~1,55)</b> - Intensive sports consistently 1-3 times a week, active lifestyle.\n    <b>4. High (~1,73)</b> - Sports daily.\n    <b>5. Very high (~2,2)</b> - hard physical work, sports 2 times a day."

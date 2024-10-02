@@ -2,6 +2,7 @@ package com.breez.dispatcher_service.config;
 
 import com.breez.dispatcher_service.handlers.*;
 import com.breez.dispatcher_service.handlers.calories.*;
+import com.breez.dispatcher_service.handlers.meals.CountMealsHandler;
 import com.breez.dispatcher_service.handlers.preferencies.*;
 import com.breez.dispatcher_service.handlers.diet.ChooseDietHandler;
 import com.breez.dispatcher_service.handlers.diet.SetDietHandler;
@@ -29,7 +30,9 @@ public class StateHandlerConfig {
 			GetGenderHandler getGenderHandler,
 			GetTargetHandler getTargetHandler,
 			GetResultInfoHandler getResultInfoHandler,
-			CalculateCaloriesHandler calculateCaloriesHandler) {
+			CalculateCaloriesHandler calculateCaloriesHandler,
+			ConfirmCaloriesHandler confirmCaloriesHandler,
+			CountMealsHandler countMealsHandler) {
 		return Map.ofEntries(
 				Map.entry(UserState.START, startStateHandler),
 				Map.entry(UserState.CHOOSE_DIET, chooseDietHandler),
@@ -44,7 +47,9 @@ public class StateHandlerConfig {
 				Map.entry(UserState.GET_GENDER, getGenderHandler),
 				Map.entry(UserState.GET_TARGET, getTargetHandler),
 				Map.entry(UserState.GET_RESULT_INFO, getResultInfoHandler),
-				Map.entry(UserState.CALCULATE_CALORIES, calculateCaloriesHandler)
+				Map.entry(UserState.CALCULATE_CALORIES, calculateCaloriesHandler),
+				Map.entry(UserState.CONFIRM_CALORIES, confirmCaloriesHandler),
+				Map.entry(UserState.COUNT_MEALS, countMealsHandler)
 		);
 	}
 

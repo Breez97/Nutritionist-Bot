@@ -42,7 +42,7 @@ public class GetHeightHandler implements StateHandler {
 				userStateService.setState(chatId, UserState.GET_WEIGHT);
 			} else {
 				messageUtils.errorMessage(update);
-				userStateService.setState(chatId, UserState.GET_AGE);
+				userStateService.setState(chatId, UserState.GET_HEIGHT);
 			}
 		} catch (NumberFormatException e) {
 			messageUtils.errorMessage(update);

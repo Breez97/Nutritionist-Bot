@@ -1,4 +1,4 @@
-package com.breez.dispatcher_service.handlers.diet;
+package com.breez.dispatcher_service.handlers.calories;
 
 import com.breez.dispatcher_service.handlers.StateHandler;
 import com.breez.dispatcher_service.model.UserState;
@@ -15,7 +15,7 @@ import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMar
 import java.util.List;
 
 @Component
-public class ChooseDietHandler implements StateHandler {
+public class ConfirmCaloriesHandler implements StateHandler {
 
 	@Autowired
 	private TelegramBotService telegramBotService;
@@ -28,19 +28,18 @@ public class ChooseDietHandler implements StateHandler {
 
 	@Override
 	public void handle(Update update, long chatId) {
-		if (update.getMessage().getText().contains("Let's try")) {
-			SendMessage sendMessage = messageUtils.sendTextMessage(update, "Let's start from the beginning.\n\nSelect the type of your diet.");
-			ReplyKeyboardMarkup replyKeyboardMarkup = keyboardUtils.setKeyboard(List.of(
-					"Anything 🥪", "Paleo 🍖",
-					"Vegetarian 🥦", "Vegan 🌱",
-					"Ketogenic 🥙", "Mediterranean 🪔"
-			), 2);
-			sendMessage.setReplyMarkup(replyKeyboardMarkup);
-			telegramBotService.sendMessage(sendMessage);
-			userStateService.setState(chatId, UserState.SET_DIET);
+		String answer = update.getMessage().getText();
+		if (answer.contains("Leave this amount")) {
+			SendMessage message = messageUtils.sendTextMessage(update, "Ok, fine. I get it.");
+			ReplyKeyboardMarkup replyKeyboardMarkup = keyboardUtils.setKeyboard(List.of("Continue ➡"), 1);
+			message.setReplyMarkup(replyKeyboardMarkup);
+			telegramBotService.sendMessage(message);
+			userStateService.setState(chatId, UserState.COUNT_MEALS);
+		} else if (answer.contains("Set my own value")) {
+
 		} else {
 			messageUtils.errorMessage(update);
-			userStateService.setState(chatId, UserState.CHOOSE_DIET);
+			userStateService.setState(chatId, UserState.CONFIRM_CALORIES);
 		}
 	}
 

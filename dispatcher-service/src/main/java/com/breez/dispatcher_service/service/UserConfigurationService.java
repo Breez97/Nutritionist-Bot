@@ -1,6 +1,8 @@
 package com.breez.dispatcher_service.service;
 
 import com.breez.dispatcher_service.model.UserConfiguration;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -8,6 +10,9 @@ import java.util.Map;
 
 @Service
 public class UserConfigurationService {
+
+	@Autowired
+	private KafkaTemplate<String, String> kafkaTemplate;
 
 	private final Map<Long, Map<UserConfiguration, Object>> userConfiguration = new HashMap<>();
 
@@ -48,6 +53,9 @@ public class UserConfigurationService {
 				break;
 			case "Weight":
 				resultString.append("kg");
+				break;
+			default:
+				break;
 		}
 		return resultString.toString();
 	}

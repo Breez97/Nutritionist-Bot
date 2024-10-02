@@ -7,8 +7,6 @@ public enum UserState {
 	// diet
 	CHOOSE_DIET,
 	SET_DIET,
-	CHANGE_DIET,
-	CHANGE_DIET_CONFIRM,
 
 	// calories
 	INFO_CALORIES,
@@ -23,5 +21,9 @@ public enum UserState {
 	GET_GENDER,
 	GET_TARGET,
 	GET_RESULT_INFO,
-	CALCULATE_CALORIES
+	CALCULATE_CALORIES,
+	CONFIRM_CALORIES,
+
+	// meals
+	COUNT_MEALS
 }
