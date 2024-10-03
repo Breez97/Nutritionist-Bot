@@ -1,6 +1,6 @@
-package com.breez.count_calories_service.service;
+package com.breez.count_calories.service;
 
-import com.breez.count_calories_service.model.UserConfig;
+import com.breez.count_calories.model.UserConfig;
 import org.springframework.stereotype.Service;
 
 @Service

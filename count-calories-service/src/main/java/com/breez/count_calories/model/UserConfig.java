@@ -1,4 +1,4 @@
-package com.breez.count_calories_service.model;
+package com.breez.count_calories.model;
 
 import lombok.Getter;
 import lombok.Setter;

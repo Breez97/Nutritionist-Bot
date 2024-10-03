@@ -1,6 +1,6 @@
-package com.breez.count_calories_service.service;
+package com.breez.count_calories.service;
 
-import com.breez.count_calories_service.model.UserConfig;
+import com.breez.count_calories.model.UserConfig;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
