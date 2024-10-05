@@ -103,7 +103,7 @@ public class GenerateMealsHandler implements StateHandler {
 								"Carbs: %.1f g\n" +
 								"Protein: %.1f g\n" +
 								"Fat: %.1f g\n" +
-								"Link: [View Recipe](https://yourwebsite.com%s)",
+								"Link: [View Recipe](https://www.eatthismuch.com%s)",
 						title, calories, carbs, protein, fat, link
 				);
 				SendPhoto sendPhoto = createPhotoForDish(kafkaUpdate, imageUrl, dishMessage);
