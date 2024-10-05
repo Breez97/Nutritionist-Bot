@@ -36,7 +36,10 @@ public class ConfirmCaloriesHandler implements StateHandler {
 			telegramBotService.sendMessage(message);
 			userStateService.setState(chatId, UserState.COUNT_MEALS);
 		} else if (answer.contains("Set my own value")) {
-
+			SendMessage message = messageUtils.sendTextMessage(update, "Input your amount of calories");
+			message.setReplyMarkup(keyboardUtils.removeKeyboard());
+			telegramBotService.sendMessage(message);
+			userStateService.setState(chatId, UserState.SET_CALORIES);
 		} else {
 			messageUtils.errorMessage(update);
 			userStateService.setState(chatId, UserState.CONFIRM_CALORIES);

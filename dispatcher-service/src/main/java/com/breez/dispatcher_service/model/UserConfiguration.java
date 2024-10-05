@@ -8,6 +8,8 @@ public enum UserConfiguration {
 	WEIGHT,
 	GENDER,
 	TARGET,
-	COEFFICIENT
+	COEFFICIENT,
+	CALORIES,
+	MEALS
 
 }

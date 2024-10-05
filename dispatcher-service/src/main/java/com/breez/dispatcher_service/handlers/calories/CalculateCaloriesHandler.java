@@ -1,6 +1,6 @@
 package com.breez.dispatcher_service.handlers.calories;
 
-import com.breez.dispatcher_service.event.KafkaMessageEvent;
+import com.breez.dispatcher_service.event.KafkaCaloriesEvent;
 import com.breez.dispatcher_service.handlers.StateHandler;
 import com.breez.dispatcher_service.model.KafkaUpdate;
 import com.breez.dispatcher_service.model.UserConfiguration;
@@ -46,9 +46,9 @@ public class CalculateCaloriesHandler implements StateHandler {
 		if (update.getMessage().getText().contains("Continue")) {
 			Map<UserConfiguration, Object> userConfigurations = userConfigurationService.getAllUserConfigurations(chatId);
 			JSONObject jsonData = kafkaService.convertToJson(chatId, userConfigurations);
-			kafkaService.sendToKafka(chatId, jsonData);
+			kafkaService.sendConfigToKafka(chatId, jsonData);
 		} else if (update instanceof KafkaUpdate) {
-			handleKafkaMessage((KafkaUpdate) update, ((KafkaUpdate) update).getMessage().getText(), chatId);
+			handleKafkaMessage((KafkaUpdate) update, (update).getMessage().getText(), chatId);
 		} else {
 			messageUtils.errorMessage(update);
 			userStateService.setState(chatId, UserState.CALCULATE_CALORIES);
@@ -56,7 +56,7 @@ public class CalculateCaloriesHandler implements StateHandler {
 	}
 
 	@EventListener
-	public void onKafkaMessageReceived(KafkaMessageEvent event) {
+	public void onKafkaMessageReceived(KafkaCaloriesEvent event) {
 		String messageContent = event.getMessage();
 		try {
 			JSONObject jsonMessage = new JSONObject(messageContent);
@@ -76,7 +76,8 @@ public class CalculateCaloriesHandler implements StateHandler {
 	private void handleKafkaMessage(KafkaUpdate kafkaUpdate, String message, long chatId) {
 		try {
 			JSONObject jsonMessage = new JSONObject(message);
-			double calories = jsonMessage.getDouble("calories");
+			int calories = jsonMessage.getInt("calories");
+			userConfigurationService.setUserConfiguration(chatId, UserConfiguration.CALORIES, calories);
 			SendMessage sendMessage = messageUtils.sendTextMessage(kafkaUpdate, "Your amount of calories: " + calories);
 			ReplyKeyboardMarkup replyKeyboardMarkup = keyboardUtils.setKeyboard(
 					List.of("Leave this amount ✅", "Set my own value ❌"), 2);

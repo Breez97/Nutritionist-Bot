@@ -24,16 +24,45 @@ public class UserConfigurationService {
 		return userConfiguration.getOrDefault(chatId, new HashMap<>());
 	}
 
+	public Integer getUserCalories(Long chatId) {
+		Map<UserConfiguration, Object> userConfig = userConfiguration.get(chatId);
+		if (userConfig != null) {
+			Object caloriesObj = userConfig.get(UserConfiguration.CALORIES);
+			if (caloriesObj instanceof Integer) {
+				return (Integer) caloriesObj;
+			}
+		}
+		return null;
+	}
+
 	public String toString(Long chatId) {
 		Map<UserConfiguration, Object> configs = getAllUserConfigurations(chatId);
-		StringBuilder resultString = new StringBuilder();
-		resultString.append("Your options\n\n");
+		StringBuilder resultString = new StringBuilder("Your options\n\n");
 		for (UserConfiguration config : UserConfiguration.values()) {
-			String configName = capitalizeFirstLetter(config.name());
-			String value = configs.get(config).toString();
-			String valueString = formatValue(configName, value);
-			resultString.append(configName).append(": ").append(valueString).append("\n");
+			if (config != UserConfiguration.CALORIES && configs.containsKey(config)) {
+				String configName = capitalizeFirstLetter(config.name());
+				Object value = configs.get(config);
+				if (value != null) {
+					String valueString = formatValue(configName, value.toString());
+					resultString.append(configName).append(": ").append(valueString).append("\n");
+				}
+			}
 		}
+		return resultString.toString();
+	}
+
+	public String resultInfo(Long chatId) {
+		Map<UserConfiguration, Object> configs = getAllUserConfigurations(chatId);
+		StringBuilder resultString = new StringBuilder("Information about choices:\n\n");
+		String diet = configs.containsKey(UserConfiguration.DIET) ?
+				configs.get(UserConfiguration.DIET).toString() : "Not specified";
+		resultString.append("Diet: ").append(diet).append("\n");
+		int calories = configs.containsKey(UserConfiguration.CALORIES) ?
+				Integer.parseInt(configs.get(UserConfiguration.CALORIES).toString()) : 0;
+		resultString.append("Daily calorie goal: ").append(calories).append(" cal\n");
+		Object mealsObj = getAllUserConfigurations(chatId).get(UserConfiguration.MEALS);
+		int meals = mealsObj != null ? Integer.parseInt(mealsObj.toString()) : 1;
+		resultString.append("Number of meals: ").append(meals);
 		return resultString.toString();
 	}
 

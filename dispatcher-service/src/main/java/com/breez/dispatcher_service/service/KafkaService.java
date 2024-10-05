@@ -1,6 +1,7 @@
 package com.breez.dispatcher_service.service;
 
-import com.breez.dispatcher_service.event.KafkaMessageEvent;
+import com.breez.dispatcher_service.event.KafkaCaloriesEvent;
+import com.breez.dispatcher_service.event.KafkaMealsEvent;
 import com.breez.dispatcher_service.model.UserConfiguration;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,8 +21,13 @@ public class KafkaService {
 	private ApplicationEventPublisher eventPublisher;
 
 	@KafkaListener(topics = "counted-calories-by-user-config-topic", groupId = "counted-calories-by-user-config-group")
-	public void topicListener(String message) {
-		eventPublisher.publishEvent(new KafkaMessageEvent(this, message));
+	public void topicCaloriesListener(String message) {
+		eventPublisher.publishEvent(new KafkaCaloriesEvent(this, message));
+	}
+
+	@KafkaListener(topics = "generated-meals-topic", groupId = "generated-meals-group")
+	public void topicMealsListener(String message) {
+		eventPublisher.publishEvent(new KafkaMealsEvent(this, message));
 	}
 
 	public JSONObject convertToJson(long chatId, Map<UserConfiguration, Object> userConfigurations) {
@@ -33,9 +39,14 @@ public class KafkaService {
 		return jsonData;
 	}
 
-	public void sendToKafka(long chatId, JSONObject jsonData) {
+	public void sendConfigToKafka(long chatId, JSONObject jsonData) {
 		String message = jsonData.toString();
 		kafkaTemplate.send("calories-by-user-config-topic", String.valueOf(chatId), message);
+	}
+
+	public void sendGenerateRequestToKafka(long chatId, JSONObject jsonData) {
+		String message = jsonData.toString();
+		kafkaTemplate.send("generate-meals-by-user-config-topic", String.valueOf(chatId), message);
 	}
 
 }

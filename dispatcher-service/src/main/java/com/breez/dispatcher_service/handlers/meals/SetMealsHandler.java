@@ -1,6 +1,7 @@
 package com.breez.dispatcher_service.handlers.meals;
 
 import com.breez.dispatcher_service.handlers.StateHandler;
+import com.breez.dispatcher_service.model.UserConfiguration;
 import com.breez.dispatcher_service.model.UserState;
 import com.breez.dispatcher_service.service.TelegramBotService;
 import com.breez.dispatcher_service.service.UserConfigurationService;
@@ -13,11 +14,12 @@ import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardMarkup;
 
-import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Component
-public class CountMealsHandler implements StateHandler {
+public class SetMealsHandler implements StateHandler {
 
 	@Autowired
 	private TelegramBotService telegramBotService;
@@ -30,23 +32,23 @@ public class CountMealsHandler implements StateHandler {
 	@Autowired
 	private KeyboardUtils keyboardUtils;
 
+	private final Set<String> VALID_MEALS = new HashSet<>(Set.of("1", "2", "3", "4"));
+
 	@Override
 	public void handle(Update update, long chatId) {
-		if (update.getMessage().getText().contains("Continue")) {
-			SendMessage message = messageUtils.sendTextMessage(update, "Please select the amount of meals per day you want.");
-			List<String> keyboardButtons = new ArrayList<>();
-			int amountOfCalories = userConfigurationService.getUserCalories(chatId);
-			if (200 <= amountOfCalories && amountOfCalories <= 4000) keyboardButtons.add("1");
-			if (200 <= amountOfCalories && amountOfCalories <= 8000) keyboardButtons.add("2");
-			if (300 <= amountOfCalories && amountOfCalories <= 12000) keyboardButtons.add("3");
-			if (400 <= amountOfCalories && amountOfCalories <= 16000) keyboardButtons.add("4");
-			ReplyKeyboardMarkup replyKeyboardMarkup = keyboardUtils.setKeyboard(keyboardButtons, 1);
+		String answer = update.getMessage().getText();
+		if (VALID_MEALS.contains(answer)) {
+			SendMessage infoMessage = messageUtils.sendTextMessage(update, "Your amount of meals: " + answer + " meals");
+			userConfigurationService.setUserConfiguration(chatId, UserConfiguration.MEALS, answer);
+			telegramBotService.sendMessage(infoMessage);
+			SendMessage message = messageUtils.sendTextMessage(update, userConfigurationService.resultInfo(chatId));
+			ReplyKeyboardMarkup replyKeyboardMarkup = keyboardUtils.setKeyboard(List.of("Generate"), 1);
 			message.setReplyMarkup(replyKeyboardMarkup);
 			telegramBotService.sendMessage(message);
-			userStateService.setState(chatId, UserState.SET_MEALS);
+			userStateService.setState(chatId, UserState.GENERATE_MEALS);
 		} else {
 			messageUtils.errorMessage(update);
-			userStateService.setState(chatId, UserState.INFO_CALORIES);
+			userStateService.setState(chatId, UserState.SET_MEALS);
 		}
 	}
 

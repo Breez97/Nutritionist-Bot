@@ -1,6 +1,7 @@
 package com.breez.dispatcher_service.handlers.calories;
 
 import com.breez.dispatcher_service.handlers.StateHandler;
+import com.breez.dispatcher_service.model.UserConfiguration;
 import com.breez.dispatcher_service.model.UserState;
 import com.breez.dispatcher_service.service.TelegramBotService;
 import com.breez.dispatcher_service.service.UserConfigurationService;
@@ -38,8 +39,9 @@ public class SetCaloriesHandler implements StateHandler {
 				ReplyKeyboardMarkup replyKeyboardMarkup = keyboardUtils.setKeyboard(List.of("Continue ➡"), 1);
 				SendMessage message = messageUtils.sendTextMessage(update, "Your amount of calories: " + amountOfCalories);
 				message.setReplyMarkup(replyKeyboardMarkup);
+				userConfigurationService.setUserConfiguration(chatId, UserConfiguration.CALORIES, amountOfCalories);
 				telegramBotService.sendMessage(message);
-//				userStateService.setState(chatId, UserState.COUNT_MEALS);
+				userStateService.setState(chatId, UserState.COUNT_MEALS);
 			} else if (amountOfCalories < 200) {
 				SendMessage message = messageUtils.sendTextMessage(update, "Please input more calories.");
 				telegramBotService.sendMessage(message);

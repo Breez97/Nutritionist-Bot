@@ -25,5 +25,7 @@ public enum UserState {
 	CONFIRM_CALORIES,
 
 	// meals
-	COUNT_MEALS
+	COUNT_MEALS,
+	SET_MEALS,
+	GENERATE_MEALS
 }
