@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class CountService {
 
-	public double calculateDailyCalories(UserConfig userConfig) {
+	public int calculateDailyCalories(UserConfig userConfig) {
 		double amount;
 		if (userConfig.getGender().toLowerCase().contains("male")) {
 			amount = 10 * userConfig.getWeight() + 6.25 * userConfig.getHeight() - 5 * userConfig.getAge() + 5;
@@ -15,7 +15,7 @@ public class CountService {
 		}
 		double energy = amount * getActivityMultiplier(userConfig.getCoefficient());
 		double targetCalories = adjustForTarget(energy, userConfig.getTarget());
-		return Math.round(targetCalories);
+		return (int) Math.round(targetCalories);
 	}
 
 	private double getActivityMultiplier(String coefficient) {

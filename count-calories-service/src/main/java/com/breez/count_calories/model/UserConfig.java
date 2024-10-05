@@ -10,12 +10,14 @@ import org.springframework.stereotype.Component;
 public class UserConfig {
 
 	private long chatId;
-	private String gender;
-	private String coefficient;
-	private int weight;
 	private String diet;
 	private int age;
-	private String target;
 	private int height;
+	private int weight;
+	private String gender;
+	private String target;
+	private String coefficient;
+	private int calories;
+	private int meals;
 
 }
